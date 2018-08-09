@@ -1,2 +1,12 @@
 // Import page-specific CSS files here.
 @import "home";
+@import "cocktails";
+@import "show";
+
+* {
+  margin: 0;
+}
+
+body {
+  margin-top: 70px;
+}
