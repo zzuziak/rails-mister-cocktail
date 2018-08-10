@@ -1,0 +1,10 @@
+<div class="container">
+
+  <h2>Add review</h2>
+  <%= simple_form_for [@cocktail, @review] do |f| %>
+    <%= f.input :title, class:"form-control" %>
+    <%= f.input :content, class:"form-control"%>
+    <%= f.select :rating, collection: in (1..5) %>
+    <%= f.submit "Let us know what you think!", class:"btn btn-info" %>
+  <% end %>
+</div>

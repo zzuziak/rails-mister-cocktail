@@ -1,28 +1,26 @@
 
-<div class="banner" style="background-image: linear-gradient(-225deg, rgba(0,101,168,0.6) 0%, rgba(0,36,61,0.6) 50%), url('<%= cl_image_path @cocktail.photo, crop: :fill %>');">
+<div class="banner" style="background-image: linear-gradient(-225deg, rgba(0,101,168,0.6) 0%, rgba(0,36,61,0.6) 50%), url('<%= cloudinary_url @cocktail.photo, crop: :fill %>');">
   <div class="banner-content">
     <h1><%= @cocktail.name %></h1>
   </div>
 </div>
 
-<div class="details">
   <div class="row">
-    <div class="col-xs-12 col-md-6">
+    <div class="details">
+    <div class="col-xs-12 col-md-4">
       <div class="doses">
         <ul class="list-unstyled">
           <h3>Ingredients</h3>
           <% @cocktail.doses.each do |dose| %>
-          <li><%= dose.ingredient.name  + " - " + dose.description %> <%= link_to "Delete", dose_path(dose), method: :delete, data: {confrim: "Sure?"} %></li>
-          <% end %>
-
+          <li class="show-ingredients-list"><%= dose.ingredient.name  + " - " + dose.description %>
+            <%= link_to '<button type="button" class="close"><span aria-hidden="true">&times;</span></button>'.html_safe, dose_path(dose), method: :delete, data: {confirm: "Sure?"} %></li>
+            <% end %>
         </ul>
       </div>
     </div>
     <div class="col-xs-12 col-md-6">
-
       <div class="form show-form">
-
-        <h2>Add a dose</h2>
+      <h2>Add a dose</h2>
         <%= simple_form_for [@cocktail, @dose] do |f| %>
         <%= f.input :description, class:"form-control" %>
         <%= f.association :ingredient, class: 'select2' %>
@@ -31,4 +29,40 @@
       </div>
     </div>
   </div>
+</div>
+
+
+<div class="container">
+  <h3>Reviews</h3>
+<% @cocktail.reviews.each do |review| %>
+  <div class="review">
+    <div class="review-body">
+      <p><strong><%= review.title %></strong></p>
+      <p>
+        <%= review.content %>
+      </p>
+    </div>
+    <div class="review-status">
+    <p class="status pending"><% review.rating.times do %>
+      <i class="fas fa-star"></i>
+      <% end %></p>
+    </div>
+  </div>
+<% end %>
+
+  <div class="row">
+    <div class="details">
+    <div class="col-xs-12 col-md-10">
+      <div class="form form-white">
+        <h2>Add review</h2>
+        <%= simple_form_for [@cocktail, @review] do |f| %>
+          <%= f.input :title, class:"form-control" %>
+          <%= f.input :content, class:"form-control"%>
+          <%= f.input :rating, collection: [1,2,3,4,5], class: "form-control" %>
+          <%= f.submit "Let us know what you think!", class:"btn btn-info" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
